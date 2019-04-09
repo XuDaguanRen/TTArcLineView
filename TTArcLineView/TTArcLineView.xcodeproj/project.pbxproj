@@ -13,6 +13,7 @@
 		201EC4E5225C302D003BBADA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 201EC4E4225C302D003BBADA /* Assets.xcassets */; };
 		201EC4E8225C302D003BBADA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 201EC4E6225C302D003BBADA /* LaunchScreen.storyboard */; };
 		201EC4EB225C302D003BBADA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 201EC4EA225C302D003BBADA /* main.m */; };
+		201EC4F4225C31FC003BBADA /* TTArcLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 201EC4F3225C31FC003BBADA /* TTArcLineView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,8 @@
 		201EC4E7225C302D003BBADA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		201EC4E9225C302D003BBADA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		201EC4EA225C302D003BBADA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		201EC4F2225C31FC003BBADA /* TTArcLineView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTArcLineView.h; sourceTree = "<group>"; };
+		201EC4F3225C31FC003BBADA /* TTArcLineView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTArcLineView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,7 @@
 		201EC4DA225C300C003BBADA /* TTArcLineView */ = {
 			isa = PBXGroup;
 			children = (
+				201EC4F1225C31EA003BBADA /* TTArcLineView */,
 				201EC4DB225C300D003BBADA /* AppDelegate.h */,
 				201EC4DC225C300D003BBADA /* AppDelegate.m */,
 				201EC4DE225C300D003BBADA /* ViewController.h */,
@@ -67,6 +71,15 @@
 				201EC4E6225C302D003BBADA /* LaunchScreen.storyboard */,
 				201EC4E9225C302D003BBADA /* Info.plist */,
 				201EC4EA225C302D003BBADA /* main.m */,
+			);
+			path = TTArcLineView;
+			sourceTree = "<group>";
+		};
+		201EC4F1225C31EA003BBADA /* TTArcLineView */ = {
+			isa = PBXGroup;
+			children = (
+				201EC4F2225C31FC003BBADA /* TTArcLineView.h */,
+				201EC4F3225C31FC003BBADA /* TTArcLineView.m */,
 			);
 			path = TTArcLineView;
 			sourceTree = "<group>";
@@ -144,6 +157,7 @@
 				201EC4E0225C300D003BBADA /* ViewController.m in Sources */,
 				201EC4EB225C302D003BBADA /* main.m in Sources */,
 				201EC4DD225C300D003BBADA /* AppDelegate.m in Sources */,
+				201EC4F4225C31FC003BBADA /* TTArcLineView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,7 +300,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XLXUAJFFWE;
 				INFOPLIST_FILE = TTArcLineView/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -302,7 +318,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XLXUAJFFWE;
 				INFOPLIST_FILE = TTArcLineView/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

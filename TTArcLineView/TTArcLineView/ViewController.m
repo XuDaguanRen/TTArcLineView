@@ -7,6 +7,13 @@
 //
 
 #import "ViewController.h"
+#import "TTArcLineView.h"
+
+// rgb颜色转换（16进制->10进制）
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+#define homeRingBegincolor UIColorFromRGB(0x06c1ae)  // 首页进度条渐变开始
+#define homeRingEndcolor UIColorFromRGB(0x349ec7)  // 首页进度条渐变结束
 
 @interface ViewController ()
 
@@ -16,8 +23,27 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    [self setupUI];
 }
 
+- (void)setupUI {
+    TTArcLineView *arcView = [[TTArcLineView alloc] initWithFrame:CGRectMake(0, 69, [UIScreen mainScreen].bounds.size.width, 300)];
+    arcView.titleArray = [NSMutableArray  arrayWithObjects: @"1", @"2", @"3", @"4", @"5", @"6", @"6", @"6", @"6", @"6", @"6", @"6", nil];
+    arcView.backgroundColor = UIColor.whiteColor;
+    [self.view addSubview:arcView];
+    arcView.colorsArray = @[(__bridge id)UIColor.redColor.CGColor,
+                            (__bridge id)UIColor.blueColor.CGColor,
+                            (__bridge id)UIColor.yellowColor.CGColor,
+                            (__bridge id)UIColor.greenColor.CGColor];
+    [arcView setProgressStrokeWidth:8 backstrokWidth:12];
+    arcView.progressColor = UIColor.redColor;
+    arcView.progressTrackColor = [UIColor grayColor];
+    arcView.progressValue = 0.5;
+    [arcView stroke];/// 开始圆环动画
+   
+   
+    
+}
 
 @end
