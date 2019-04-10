@@ -71,7 +71,7 @@
      endAngle: 结束角度
      clockwise: 是否顺时针方向
      */
-    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius:(CGRectGetWidth(self.bounds)-self.progressStrokeWidth - 10)/2.f startAngle: M_PI_4*3 endAngle: M_PI_4*progressValue clockwise:YES]; // 背景和进度开始要保
+    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius:(CGRectGetWidth(self.bounds)-self.progressStrokeWidth - 10)/2.f startAngle: M_PI_4*3 endAngle: (3*M_PI_2)*progressValue + M_PI_4 * 3 clockwise:YES]; // 背景和进度开始要保
     frontFillLayer.path = path.CGPath;
     
 }
@@ -105,9 +105,9 @@
                              (__bridge id)[UIColor greenColor].CGColor,
                              (__bridge id)[UIColor yellowColor].CGColor,
                              (__bridge id)[UIColor blueColor].CGColor];
-    gradientLayer.locations  = @[@(0.2), @(0.4), @(0.6), @(0.8)];
-    gradientLayer.startPoint = CGPointMake(1, 0);
-    gradientLayer.endPoint = CGPointMake(0, 1);
+//    gradientLayer.locations  = @[@(0.0), @(0.2), @(0.8)];
+    gradientLayer.startPoint = CGPointMake(0, 0);
+    gradientLayer.endPoint = CGPointMake(1, 0);
     [self.layer insertSublayer:gradientLayer atIndex:0];
 }
 
