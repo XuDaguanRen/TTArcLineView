@@ -24,6 +24,8 @@
 }
 /**  中心点 */
 @property (nonatomic) CGPoint curPoint;
+/**  刻度描述 */
+@property (nonatomic, strong) NSMutableArray *labelArray;
 
 @end
 

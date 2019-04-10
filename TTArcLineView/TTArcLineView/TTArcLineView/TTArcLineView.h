@@ -26,7 +26,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) TTArcLineType arcLineType;
 
 /**  表盘最大值 */
-@property (nonatomic,assign) CGFloat maxiMum;
+@property (nonatomic,assign) CGFloat externalArcMaxValue;
+/**  表盘当前值 */
+@property (nonatomic,assign) CGFloat externalValue;
+/**  内部表盘最大值 */
+@property (nonatomic,assign) CGFloat internalArcMaxValue;
+/**  内部表盘当前值大值 */
+@property (nonatomic,assign) CGFloat internalValue;
 /**  进度值0-1.0之间 */
 @property (nonatomic,assign) CGFloat progressValue;
 /**  边宽 */
@@ -39,14 +45,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) UIColor *beginColor;
 /**  进度条渐变结束颜色 */
 @property(nonatomic, strong) UIColor *endColor;
-/**   */
-@property (nonatomic, assign) CGFloat starScore;
-/**   */
+/** 圆心中间文案  */
 @property (nonatomic, strong) UILabel *highestAmountL;
+/** 圆心中间文案 */
 @property (nonatomic, strong) UILabel *myAmountL;
-
-/**  刻度描述 */
-@property (nonatomic, strong) NSMutableArray *labelArray;
 /**  默认刻度描述 */
 @property (nonatomic, strong) NSMutableArray *titleArray;
 
