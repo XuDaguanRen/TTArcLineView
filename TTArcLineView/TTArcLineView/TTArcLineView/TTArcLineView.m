@@ -44,11 +44,6 @@
     [self.layer removeAllAnimations];
 }
 
-- (void)setColorsArray:(NSArray *)colorsArray {
-    _colorsArray = colorsArray;
-    gradientLayer.colors = colorsArray;
-}
-
 //设置进度颜色
 - (void)setProgressColor:(UIColor *)progressColor {
     _progressColor = progressColor;

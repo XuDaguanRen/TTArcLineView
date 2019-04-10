@@ -39,8 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) UIColor *beginColor;
 /**  进度条渐变结束颜色 */
 @property(nonatomic, strong) UIColor *endColor;
-/**  自定义颜色数据数组 */
-@property (nonatomic, strong) NSArray *colorsArray;
 /**   */
 @property (nonatomic, assign) CGFloat starScore;
 /**   */
