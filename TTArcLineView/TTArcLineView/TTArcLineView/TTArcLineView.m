@@ -206,7 +206,7 @@
         self.highestAmountL.center = CGPointMake(self.curPoint.x, self.curPoint.y-20);
         self.highestAmountL.textAlignment = NSTextAlignmentCenter;
         self.highestAmountL.font = [UIFont systemFontOfSize:14];
-        self.highestAmountL.text = [NSString stringWithFormat:@"最高:1%.0f.万", _starScore*100];
+        self.highestAmountL.text = [NSString stringWithFormat:@"最高:100万"];
         self.highestAmountL.textColor = [UIColor redColor];
 //        self.highestAmountL.backgroundColor = UIColor.redColor;
         [self addSubview:self.highestAmountL];
