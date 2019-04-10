@@ -16,11 +16,11 @@
 @interface TTArcLineView () {
     
     CAShapeLayer *backGroundLayer;      //背景图层
-    CAShapeLayer *backGroundLayer1;
+    CAShapeLayer *internalLayer;        //内部圆图层
     CAShapeLayer *frontFillLayer;       //用来填充的图层
-    UIBezierPath *backGroundBezierPath; //背景贝赛尔曲线
-    UIBezierPath *frontFillBezierPath;  //用来填充的贝赛尔曲线
+    CAShapeLayer *internalFillLayer;    //内部进度y图层
     CAGradientLayer *gradientLayer;     //渐变背景图层
+    CAGradientLayer *internalGradient;     //渐变背景图层
 }
 /**  中心点 */
 @property (nonatomic) CGPoint curPoint;
@@ -44,9 +44,9 @@
     [self.layer removeAllAnimations];
 }
 
-//设置进度颜色
-- (void)setProgressColor:(UIColor *)progressColor {
-    _progressColor = progressColor;
+- (void)setInternalArcColor:(UIColor *)internalArcColor {
+    _internalArcColor = internalArcColor;
+    internalLayer.fillColor = _internalArcColor.CGColor;
 }
 
 /// 设置背景颜色
@@ -91,6 +91,7 @@
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     animation.removedOnCompletion = YES;
     [frontFillLayer addAnimation:animation forKey:@"circleAnimation"];
+    [internalFillLayer addAnimation:animation forKey:@"circleAnimation"];
 }
 
 /// 绘制渐变图层
@@ -127,18 +128,42 @@
 
 #pragma mark - 圆环内部View
 - (void)internalArcLineView {
-    CGFloat width = self.frame.size.width - self.progressStrokeWidth - 50 - 80;
-    UIBezierPath *ovalpath = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius: width/2 startAngle: 0.0 endAngle: M_PI*2 clockwise:YES];
 
+    CGFloat width = (self.frame.size.width - self.progressStrokeWidth - 15)/2.f;
     //创建背景图层
-    backGroundLayer1 = [CAShapeLayer layer];
-    backGroundLayer1.fillColor = UIColor.redColor.CGColor;
-    backGroundLayer1.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.width);
-    backGroundLayer1.lineCap = kCALineCapRound;
-    backGroundLayer1.lineJoin = kCALineJoinRound;
-    [self.layer addSublayer:backGroundLayer1];
-    backGroundLayer1.path = ovalpath.CGPath;
-
+    internalLayer = [CAShapeLayer layer];
+    internalLayer.fillColor = UIColor.redColor.CGColor;
+    internalLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.width);
+    internalLayer.lineCap = kCALineCapRound;
+    internalLayer.lineJoin = kCALineJoinRound;
+    [self.layer addSublayer:internalLayer];
+    
+    UIBezierPath *ovalpath = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius: width/2 startAngle: 0.0 endAngle: M_PI*2 clockwise:YES];
+    internalLayer.path = ovalpath.CGPath;
+    
+    //创建填充图层
+    internalFillLayer = [CAShapeLayer layer];
+    internalFillLayer.fillColor = [UIColor clearColor].CGColor;
+    internalFillLayer.strokeColor = [UIColor redColor].CGColor;
+    internalFillLayer.lineWidth = 3;
+    internalFillLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.width);
+    internalFillLayer.lineCap = kCALineCapRound; //线终点
+    internalFillLayer.lineJoin = kCALineJoinRound; // 线拐角
+    [self.layer addSublayer:internalFillLayer];
+    UIBezierPath *internalPath = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius: width/2 - 4 startAngle: M_PI_4*3 endAngle: M_PI_4 clockwise:YES];
+    
+    internalFillLayer.path = internalPath.CGPath;
+    
+    internalGradient = [CAGradientLayer layer];
+    internalGradient.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.width);
+    internalGradient.colors = @[(__bridge id)_beginColor.CGColor,
+                             (__bridge id)_endColor.CGColor];
+    //    gradientLayer.locations  = @[@(0.0), @(0.2), @(0.8)];
+    internalGradient.startPoint = CGPointMake(0, 0.5);
+    internalGradient.endPoint = CGPointMake(1, 0.5);
+    [self.layer insertSublayer:internalGradient atIndex:0];
+    internalGradient.mask = internalFillLayer;
+    
 }
 
 - (void)setupArcLineViewUI {

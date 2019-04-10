@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**  边宽 */
 @property(nonatomic, assign) CGFloat progressStrokeWidth;
 /**  进度条颜色 */
-@property(nonatomic, strong) UIColor *progressColor;
+@property(nonatomic, strong) UIColor *internalArcColor;
 /**  进度条轨道颜色 */
 @property(nonatomic, strong) UIColor *progressTrackColor;
 /**  进度条渐变开始颜色 */
