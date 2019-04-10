@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**  当前线类型  画的圆环是虚线还是实线的 默认实线 */
 @property (nonatomic,assign) TTArcLineType arcLineType;
 
+/**  表盘最大值 */
+@property (nonatomic,assign) CGFloat maxiMum;
 /**  进度值0-1.0之间 */
 @property (nonatomic,assign) CGFloat progressValue;
 /**  边宽 */

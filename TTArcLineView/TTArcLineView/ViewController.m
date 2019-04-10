@@ -29,17 +29,16 @@
 
 - (void)setupUI {
     TTArcLineView *arcView = [[TTArcLineView alloc] initWithFrame:CGRectMake(0, 69, [UIScreen mainScreen].bounds.size.width, 300)];
-    arcView.titleArray = [NSMutableArray  arrayWithObjects: @"1", @"2", @"3", @"4", @"5", @"6", @"6", @"6", @"6", @"6", @"6", @"6", nil];
+    
+    arcView.maxiMum = 600;
     arcView.backgroundColor = UIColor.whiteColor;
     [self.view addSubview:arcView];
-    arcView.colorsArray = @[(__bridge id)UIColor.redColor.CGColor,
-                            (__bridge id)UIColor.blueColor.CGColor,
-                            (__bridge id)UIColor.yellowColor.CGColor,
-                            (__bridge id)UIColor.greenColor.CGColor];
+    arcView.colorsArray = @[(__bridge id)homeRingBegincolor.CGColor,
+                            (__bridge id)homeRingEndcolor.CGColor];
     [arcView setProgressStrokeWidth:8 backstrokWidth:12];
     arcView.progressColor = UIColor.redColor;
     arcView.progressTrackColor = [UIColor grayColor];
-    arcView.progressValue = 0.5;
+    arcView.progressValue = 0.2;
     [arcView stroke];/// 开始圆环动画
    
    

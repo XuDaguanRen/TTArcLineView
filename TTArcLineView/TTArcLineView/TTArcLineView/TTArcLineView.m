@@ -10,7 +10,7 @@
 
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)//角都转弧度
 
-#define ANGLE 20 // 没份20度 共220度
+#define ANGLE 25.6 // 没份25度 共252度
 #define kAnimationDuration 1.0f
 
 @interface TTArcLineView () {
@@ -32,7 +32,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setupArcLineViewUI];
+        [self setupUI];
     }
     return self;
 }
@@ -56,9 +56,8 @@
 - (void)setProgressTrackColor:(UIColor *)progressTrackColor {
     _progressTrackColor = progressTrackColor;
     backGroundLayer.strokeColor = progressTrackColor.CGColor;
-    UIBezierPath *pathBag = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius:(CGRectGetWidth(self.bounds)-self.progressStrokeWidth - 10)/2.f startAngle: M_PI_4*3 endAngle: M_PI_4 clockwise:YES]; // 背景和进度开始要保
+    UIBezierPath *pathBag = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius:(CGRectGetWidth(self.bounds)-self.progressStrokeWidth - 15)/2.f startAngle: M_PI_4*3 endAngle: M_PI_4 clockwise:YES]; // 背景和进度开始要保
     backGroundLayer.path = pathBag.CGPath;
-    
 }
 
 - (void)setProgressValue:(CGFloat)progressValue {
@@ -71,7 +70,7 @@
      endAngle: 结束角度
      clockwise: 是否顺时针方向
      */
-    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius:(CGRectGetWidth(self.bounds)-self.progressStrokeWidth - 10)/2.f startAngle: M_PI_4*3 endAngle: (3*M_PI_2)*progressValue + M_PI_4 * 3 clockwise:YES]; // 背景和进度开始要保
+    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius:(CGRectGetWidth(self.bounds)-self.progressStrokeWidth - 15)/2.f startAngle: M_PI_4*3 endAngle: (3*M_PI_2)*progressValue + M_PI_4 * 3 clockwise:YES]; // 背景和进度开始要保
     frontFillLayer.path = path.CGPath;
     
 }
@@ -111,6 +110,26 @@
     [self.layer insertSublayer:gradientLayer atIndex:0];
 }
 
+//创建文字说明 label
+- (void)creatLabel:(NSString *)title withScore:(CGFloat)index {
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
+    label.font = [UIFont systemFontOfSize:10];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = title;
+    label.textColor = [UIColor blackColor];
+    [self addSubview:label];
+    CGFloat endAngle = index*ANGLE-240+10;
+    
+    label.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(endAngle)+M_PI_2);//label 旋转
+    CGSize size = self.frame.size;
+    CGFloat centerY = size.width/2 - (size.width/2-30) * sin(DEGREES_TO_RADIANS(index*ANGLE-40));
+    CGFloat centerX = size.width/2 - (size.width/2-30) * cos(DEGREES_TO_RADIANS(index*ANGLE-40));
+    label.center = CGPointMake(centerX, centerY);
+    [self.labelArray addObject:label];
+    
+}
+
 #pragma mark - 圆环内部View
 - (void)internalArcLineView {
     CGFloat width = self.frame.size.width - self.progressStrokeWidth - 50 - 80;
@@ -148,13 +167,18 @@
     [self.layer addSublayer:backGroundLayer];
     gradientLayer.mask = frontFillLayer;
     [self.layer insertSublayer:backGroundLayer atIndex:0];
-    
+}
+
+#pragma mark -  布局UI
+- (void)setupUI {
+    [self setupArcLineViewUI];
+    [self internalArcLineView];
     //创建文字说明
     if (!self.labelArray.count) {
-        for (int i = 0; i < self.titleArray.count; i++) {
+        for (int i = 0; i < 11; i++) {
             [self creatLabel:self.titleArray[i] withScore:i];
         }
-
+        
         self.scoreLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
         self.scoreLabel.center = CGPointMake(self.curPoint.x, self.curPoint.y-30);
         self.scoreLabel.textAlignment = NSTextAlignmentCenter;
@@ -162,7 +186,7 @@
         self.scoreLabel.text = [NSString stringWithFormat:@"%.0f", _starScore*100];
         self.scoreLabel.textColor = [UIColor redColor];
         [self addSubview:self.scoreLabel];
-
+        
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
         label.center = CGPointMake(self.scoreLabel.center.x, self.curPoint.y+10);
         label.text = @"我的是多少22.11万";
@@ -171,27 +195,6 @@
         label.textAlignment = NSTextAlignmentCenter;
         [self addSubview:label];
     }
-    
-    [self internalArcLineView];
-}
-
-//创建文字说明 label
-- (void)creatLabel:(NSString *)title withScore:(CGFloat)index{
-
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 23, 15)];
-    label.font = [UIFont systemFontOfSize:10];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.text = title;
-    label.textColor = [UIColor blackColor];
-    [self addSubview:label];
-    CGFloat endAngle = index*ANGLE-200+10;
-    label.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(endAngle)+M_PI_2);//label 旋转
-    CGSize size = self.frame.size;
-    CGFloat  centerY = size.width/2 - (size.width/2-30)*sin(DEGREES_TO_RADIANS(index*ANGLE-10));
-    CGFloat centerX = size.width/2 - (size.width/2-30)*cos(DEGREES_TO_RADIANS(index*ANGLE-10));
-    label.center = CGPointMake(centerX, centerY);
-    [self.labelArray addObject:label];
-
 }
 
 #pragma mark - lazy loading
@@ -200,22 +203,21 @@
         _labelArray = [NSMutableArray arrayWithCapacity:0];
     }
     return _labelArray;
-
 }
 
 - (NSMutableArray *)titleArray { //分值对应等级
     if (!_titleArray) {
-        _titleArray = [NSMutableArray arrayWithCapacity:0];
+        _titleArray = [NSMutableArray array];
         [_titleArray addObject:@"0"];
-        [_titleArray addObject:@"一般"];
+        [_titleArray addObject:@"10"];
+        [_titleArray addObject:@"20"];
+        [_titleArray addObject:@"30"];
+        [_titleArray addObject:@"40"];
+        [_titleArray addObject:@"50"];
         [_titleArray addObject:@"60"];
-        [_titleArray addObject:@"中等"];
         [_titleArray addObject:@"70"];
-        [_titleArray addObject:@"良好"];
         [_titleArray addObject:@"80"];
-        [_titleArray addObject:@"优秀"];
         [_titleArray addObject:@"90"];
-        [_titleArray addObject:@"极好"];
         [_titleArray addObject:@"100"];
     }
     return _titleArray;
