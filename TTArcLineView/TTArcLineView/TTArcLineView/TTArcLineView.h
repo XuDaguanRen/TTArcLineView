@@ -42,7 +42,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**   */
 @property (nonatomic, assign) CGFloat starScore;
 /**   */
-@property (nonatomic, strong) UILabel *scoreLabel;
+@property (nonatomic, strong) UILabel *highestAmountL;
+@property (nonatomic, strong) UILabel *myAmountL;
+
 /**  刻度描述 */
 @property (nonatomic, strong) NSMutableArray *labelArray;
 /**  默认刻度描述 */

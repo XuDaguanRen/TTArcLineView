@@ -199,22 +199,24 @@
         for (int i = 0; i < 11; i++) {
             [self creatLabel:self.titleArray[i] withScore:i];
         }
+        CGFloat width = (self.frame.size.width - self.progressStrokeWidth - 15)/2.f;
+        self.highestAmountL = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, width, 30)];
+        self.highestAmountL.center = CGPointMake(self.curPoint.x, self.curPoint.y-20);
+        self.highestAmountL.textAlignment = NSTextAlignmentCenter;
+        self.highestAmountL.font = [UIFont systemFontOfSize:14];
+        self.highestAmountL.text = [NSString stringWithFormat:@"最高:1%.0f.万", _starScore*100];
+        self.highestAmountL.textColor = [UIColor redColor];
+//        self.highestAmountL.backgroundColor = UIColor.redColor;
+        [self addSubview:self.highestAmountL];
         
-        self.scoreLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
-        self.scoreLabel.center = CGPointMake(self.curPoint.x, self.curPoint.y-30);
-        self.scoreLabel.textAlignment = NSTextAlignmentCenter;
-        self.scoreLabel.font = [UIFont systemFontOfSize:55];
-        self.scoreLabel.text = [NSString stringWithFormat:@"%.0f", _starScore*100];
-        self.scoreLabel.textColor = [UIColor redColor];
-        [self addSubview:self.scoreLabel];
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-        label.center = CGPointMake(self.scoreLabel.center.x, self.curPoint.y+10);
-        label.text = @"我的是多少22.11万";
-        label.font = [UIFont systemFontOfSize:15];
-        label.textColor = [UIColor redColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        [self addSubview:label];
+        self.myAmountL = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, width, 30)];
+        self.myAmountL.center = CGPointMake(self.highestAmountL.center.x, self.curPoint.y+20);
+        self.myAmountL.text = @"我的: 22.11万";
+        self.myAmountL.font = [UIFont systemFontOfSize:14];
+        self.myAmountL.textColor = [UIColor redColor];
+        self.myAmountL.textAlignment = NSTextAlignmentCenter;
+//        self.myAmountL.backgroundColor = UIColor.blueColor;
+        [self addSubview:self.myAmountL];
     }
 }
 
