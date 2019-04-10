@@ -30,7 +30,8 @@
 - (void)setupUI {
     TTArcLineView *arcView = [[TTArcLineView alloc] initWithFrame:CGRectMake(0, 69, [UIScreen mainScreen].bounds.size.width, 300) beginColor:homeRingBegincolor endColor:homeRingEndcolor];
     
-    arcView.maxiMum = 600;
+    arcView.externalArcMaxValue = 100000;
+    arcView.externalValue = 3000;
     arcView.backgroundColor = UIColor.whiteColor;
     [self.view addSubview:arcView];
     [arcView setProgressStrokeWidth:8 backstrokWidth:12];
