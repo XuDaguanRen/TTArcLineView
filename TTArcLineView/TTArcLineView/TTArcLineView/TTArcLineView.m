@@ -138,7 +138,7 @@
     internalLayer.lineJoin = kCALineJoinRound;
     [self.layer addSublayer:internalLayer];
     
-    UIBezierPath *ovalpath = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius: width/2 startAngle: 0.0 endAngle: M_PI*2 clockwise:YES];
+    UIBezierPath *ovalpath = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius: width/2 + 15 startAngle: 0.0 endAngle: M_PI*2 clockwise:YES];
     internalLayer.path = ovalpath.CGPath;
     
     //创建填充图层
@@ -150,7 +150,7 @@
     internalFillLayer.lineCap = kCALineCapRound; //线终点
     internalFillLayer.lineJoin = kCALineJoinRound; // 线拐角
     [self.layer addSublayer:internalFillLayer];
-    UIBezierPath *internalPath = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius: width/2 - 4 startAngle: M_PI_4*3 endAngle: M_PI_4 clockwise:YES];
+    UIBezierPath *internalPath = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius: width/2 + 15  - 4 startAngle: M_PI_4*3 endAngle: M_PI_4 clockwise:YES];
     
     internalFillLayer.path = internalPath.CGPath;
     
