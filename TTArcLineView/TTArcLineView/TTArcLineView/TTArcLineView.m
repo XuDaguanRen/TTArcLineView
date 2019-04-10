@@ -29,9 +29,12 @@
 
 @implementation TTArcLineView
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame beginColor:(UIColor*)beginColor endColor:(UIColor *)endColor; {
     self = [super initWithFrame:frame];
     if (self) {
+        _beginColor = beginColor;
+        _endColor = endColor;
+        
         [self setupUI];
     }
     return self;
@@ -49,7 +52,6 @@
 //设置进度颜色
 - (void)setProgressColor:(UIColor *)progressColor {
     _progressColor = progressColor;
-    frontFillLayer.strokeColor = progressColor.CGColor;
 }
 
 /// 设置背景颜色
@@ -100,13 +102,11 @@
 - (void)drawGradientLayer {
     gradientLayer = [CAGradientLayer layer];
     gradientLayer.frame = self.bounds;
-    gradientLayer.colors = @[(__bridge id)[UIColor redColor].CGColor,
-                             (__bridge id)[UIColor greenColor].CGColor,
-                             (__bridge id)[UIColor yellowColor].CGColor,
-                             (__bridge id)[UIColor blueColor].CGColor];
+    gradientLayer.colors = @[(__bridge id)_beginColor.CGColor,
+                             (__bridge id)_endColor.CGColor];
 //    gradientLayer.locations  = @[@(0.0), @(0.2), @(0.8)];
-    gradientLayer.startPoint = CGPointMake(0, 0);
-    gradientLayer.endPoint = CGPointMake(1, 0);
+    gradientLayer.startPoint = CGPointMake(0, 0.5);
+    gradientLayer.endPoint = CGPointMake(1, 0.5);
     [self.layer insertSublayer:gradientLayer atIndex:0];
 }
 
@@ -152,14 +152,15 @@
     self.curPoint = CGPointMake(self.frame.size.width/2, self.frame.size.width/2);
     //创建背景图层
     backGroundLayer = [CAShapeLayer layer];
-    backGroundLayer.fillColor = nil;
+    backGroundLayer.fillColor = [UIColor clearColor].CGColor;
     backGroundLayer.frame = self.bounds;
     backGroundLayer.lineCap = kCALineCapRound;
     backGroundLayer.lineJoin = kCALineJoinRound;
     
     //创建填充图层
     frontFillLayer = [CAShapeLayer layer];
-    frontFillLayer.fillColor = nil;
+    frontFillLayer.fillColor = [UIColor clearColor].CGColor;
+    frontFillLayer.strokeColor = [UIColor whiteColor].CGColor;
     frontFillLayer.frame = self.bounds;
     frontFillLayer.lineCap = kCALineCapRound; //线终点
     frontFillLayer.lineJoin = kCALineJoinRound; // 线拐角

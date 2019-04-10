@@ -36,9 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**  进度条轨道颜色 */
 @property(nonatomic, strong) UIColor *progressTrackColor;
 /**  进度条渐变开始颜色 */
-@property(nonatomic, strong) UIColor *progressBeginColor;
+@property(nonatomic, strong) UIColor *beginColor;
 /**  进度条渐变结束颜色 */
-@property(nonatomic, strong) UIColor *progressEndColor;
+@property(nonatomic, strong) UIColor *endColor;
 /**  自定义颜色数据数组 */
 @property (nonatomic, strong) NSArray *colorsArray;
 /**   */
@@ -49,6 +49,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableArray *labelArray;
 /**  默认刻度描述 */
 @property (nonatomic, strong) NSMutableArray *titleArray;
+
+/**
+ 初始化方法
+
+ @param frame 大小
+ @param beginColor 进度开始颜色
+ @param endColor 进度结束颜色
+ */
+- (instancetype)initWithFrame:(CGRect)frame beginColor:(UIColor*)beginColor endColor:(UIColor *)endColor;
 
 /**
  设置背景圆环的宽度，和进度圆环的宽度
