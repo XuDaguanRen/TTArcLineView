@@ -67,21 +67,11 @@
     [self.layer removeAllAnimations];
 }
 
-- (void)setInternalArcColor:(UIColor *)internalArcColor {
-    _internalArcColor = internalArcColor;
-    internalLayer.fillColor = _internalArcColor.CGColor;
-}
 
-/// 设置背景颜色
-- (void)setProgressTrackColor:(UIColor *)progressTrackColor {
-    _progressTrackColor = progressTrackColor;
-    backGroundLayer.strokeColor = progressTrackColor.CGColor;
-    
-    
-}
+
 
 - (void)setProgressValue:(CGFloat)progressValue {
-    _progressValue = progressValue;
+    
     /**
      设置圆弧进度百分比
      ArcCenter: 原点
@@ -95,7 +85,25 @@
     [self stroke];
 }
 
-/// 动画效果
+/// 根据最大值等分刻度表
+- (void)setExternalArcMaxValue:(CGFloat)externalArcMaxValue {
+    _externalArcMaxValue = externalArcMaxValue;
+    [self drawScaleValueWithDivide:10 scaleMaxValue:_externalArcMaxValue];
+}
+
+/// 内部进度条颜色
+- (void)setInternalArcColor:(UIColor *)internalArcColor {
+    _internalArcColor = internalArcColor;
+    internalLayer.fillColor = _internalArcColor.CGColor;
+}
+
+/// 进度底部背景颜色
+- (void)setProgressTrackColor:(UIColor *)progressTrackColor {
+    _progressTrackColor = progressTrackColor;
+    backGroundLayer.strokeColor = progressTrackColor.CGColor;
+}
+
+#pragma mark -  动画效果
 - (void)stroke {
     
     //画图动画
@@ -110,7 +118,7 @@
     [internalFillLayer addAnimation:animation forKey:@"circleAnimation"];
 }
 
-/// 绘制渐变图层
+#pragma mark -  绘制渐变图层
 - (void)drawGradientLayer {
     gradientLayer = [CAGradientLayer layer];
     gradientLayer.frame = self.bounds;
@@ -123,12 +131,8 @@
 }
 
 
-/**
- *  画刻度值，逆时针设定label的值，将整个仪表切分为N份，每次递增仪表盘弧度的N分之1
- *
- *  @param divide 刻度值几等分
- */
-- (void)DrawScaleValueWithDivide:(NSInteger)divide {
+#pragma mark - 圆弧等分
+- (void)drawScaleValueWithDivide:(NSInteger)divide scaleMaxValue:(CGFloat)scaleMaxValue {
     CGFloat textAngel = self.arcAngle/divide;
     
     if (divide==0) {
@@ -136,18 +140,18 @@
     }
     for (NSUInteger i = 0; i <= divide; i++) {
         CGPoint point = [self calculateTextPositonWithArcCenter:self.curPoint Angle:-(self.endAngle-textAngel*i)];
-        NSString *tickText = [NSString stringWithFormat:@"%u",(divide - i)*100/divide];
+        NSString *tickText = [NSString stringWithFormat:@"%0.0f",(divide - i)*scaleMaxValue/divide];
         //默认label的大小23 * 14
-        UILabel *text = [[UILabel alloc] initWithFrame:CGRectMake(point.x - 15, point.y - 8, 30, 14)];
+        UILabel *text = [[UILabel alloc] initWithFrame:CGRectMake(point.x - 17, point.y - 8, 35, 14)];
         text.text = tickText;
-        text.font = [UIFont systemFontOfSize:12.f];
+        text.font = [UIFont systemFontOfSize:11.f];
         text.textColor = [UIColor redColor];
         text.textAlignment = NSTextAlignmentCenter;
         [self addSubview:text];
     }
 }
 
-//默认计算半径-10,计算label的坐标
+#pragma mark -  计算label的坐标
 - (CGPoint)calculateTextPositonWithArcCenter:(CGPoint)center Angle:(CGFloat)angel {
     CGFloat x = self.scaleRadius * cosf(angel);
     CGFloat y = self.scaleRadius * sinf(angel);
@@ -194,6 +198,7 @@
     
 }
 
+#pragma mark -  外部圆形视图
 - (void)setupArcLineViewUI {
     
     //设置圆弧的圆心
@@ -227,7 +232,6 @@
     self.backgroundColor = [UIColor whiteColor];
     [self setupArcLineViewUI];
     [self internalArcLineView];
-    [self DrawScaleValueWithDivide:10]; // 刻度说明
     self.highestAmountL = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.arcRadius, 30)];
     self.highestAmountL.center = CGPointMake(self.curPoint.x, self.curPoint.y-20);
     self.highestAmountL.textAlignment = NSTextAlignmentCenter;
