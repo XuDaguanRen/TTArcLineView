@@ -25,9 +25,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**  内部表盘当前值大值 */
 @property (nonatomic,assign) CGFloat internalValue;
 /** 圆心中间文案  */
-@property (nonatomic, strong) UILabel *highestAmountL;
+@property (nonatomic, strong) NSString *highestValueString;
+/**  最高值文字颜色 */
+@property(nonatomic, strong) UIColor *highestLColor;
 /** 圆心中间文案 */
-@property (nonatomic, strong) UILabel *myAmountL;
+@property (nonatomic, strong) NSString *myValueString;
+/**  我的值文案颜色 */
+@property(nonatomic, strong) UIColor *myLColor;
 
 /**
  初始化方法

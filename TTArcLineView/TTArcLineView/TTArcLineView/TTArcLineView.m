@@ -39,7 +39,10 @@
 @property(nonatomic, assign) CGFloat progressWidth;
 /**  边宽 */
 @property(nonatomic, assign) CGFloat strokeWidth;
-
+/**  中间最高文案Label */
+@property (nonatomic, strong) UILabel *highestAmountL;
+/**  中间我的文案Label */
+@property (nonatomic, strong) UILabel *myAmountL;
 
 @end
 
@@ -65,6 +68,30 @@
 
 - (void)dealloc {
     [self.layer removeAllAnimations];
+}
+
+/// 我的值文案颜色
+- (void)setMyLColor:(UIColor *)myLColor {
+    _myLColor = myLColor;
+    self.myAmountL.textColor = _myLColor;
+}
+
+/// 我的值文案
+- (void)setMyValueString:(NSString *)myValueString {
+    _myValueString = myValueString;
+    self.myAmountL.text = _myValueString;
+}
+
+/// 最高值文字颜色
+- (void)setHighestLColor:(UIColor *)highestLColor {
+    _highestLColor = highestLColor;
+    self.highestAmountL.textColor = _highestLColor;
+}
+
+/// 最高值文案
+- (void)setHighestValueString:(NSString *)highestValueString {
+    _highestValueString = highestValueString;
+    self.highestAmountL.text = _highestValueString;
 }
 
 /// 内部表盘当前需要显示的刻度值
@@ -239,6 +266,7 @@
     self.backgroundColor = [UIColor whiteColor];
     [self setupArcLineViewUI];
     [self internalArcLineView];
+    
     self.highestAmountL = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.arcRadius, 30)];
     self.highestAmountL.center = CGPointMake(self.curPoint.x, self.curPoint.y-20);
     self.highestAmountL.textAlignment = NSTextAlignmentCenter;
