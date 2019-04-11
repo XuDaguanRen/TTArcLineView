@@ -165,11 +165,11 @@
 
 #pragma mark - 圆弧等分
 - (void)drawScaleValueWithDivide:(NSInteger)divide scaleMaxValue:(CGFloat)scaleMaxValue {
-    CGFloat textAngel = self.arcAngle/divide;
-    
+
     if (divide==0) {
         return;
     }
+    CGFloat textAngel = self.arcAngle/divide;
     for (NSUInteger i = 0; i <= divide; i++) {
         CGPoint point = [self calculateTextPositonWithArcCenter:self.curPoint Angle:-(self.endAngle-textAngel*i)];
         NSString *tickText = [NSString stringWithFormat:@"%0.0f",(divide - i)*scaleMaxValue/divide];

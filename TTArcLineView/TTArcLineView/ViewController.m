@@ -29,7 +29,7 @@
 
 - (void)setupUI {
     
-    TTArcLineView *arcView = [[TTArcLineView alloc] initWithFrame:CGRectMake(0, 69, [UIScreen mainScreen].bounds.size.width, 300) strokeWidth:12 progressWidth:8 beginColor:homeRingBegincolor endColor:homeRingEndcolor];
+    TTArcLineView *arcView = [[TTArcLineView alloc] initWithFrame:CGRectMake(0, 69, [UIScreen mainScreen].bounds.size.width, 300) strokeWidth:12 progressWidth:10 beginColor:homeRingBegincolor endColor:homeRingEndcolor];
     
     arcView.backgroundColor = UIColor.whiteColor;
     [self.view addSubview:arcView];
@@ -39,13 +39,13 @@
     arcView.externalArcMaxValue = 450;
     arcView.externalValue = 320;
     arcView.internalArcMaxValue = 450;
-    arcView.internalValue = 300;
+    arcView.internalValue = 165;
     arcView.highestValueString = @"哈哈哈：100万了";
     arcView.myValueString = @"嘿嘿：1000万了";
     arcView.highestLColor = UIColor.blueColor;
     arcView.myLColor = UIColor.cyanColor;
     
-    [arcView stroke];
+    [arcView stroke]; //进度动画
 }
 
 @end
