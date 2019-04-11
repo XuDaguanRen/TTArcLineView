@@ -67,25 +67,28 @@
     [self.layer removeAllAnimations];
 }
 
-
-
-
-- (void)setProgressValue:(CGFloat)progressValue {
-    
-    /**
-     设置圆弧进度百分比
-     ArcCenter: 原点
-     radius: 半径
-     startAngle: 开始角度
-     endAngle: 结束角度
-     clockwise: 是否顺时针方向
-     */
-    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius:self.arcRadius startAngle: self.startAngle endAngle: (3*M_PI_2)*progressValue + self.startAngle clockwise:YES]; // 背景和进度开始要保
-    frontFillLayer.path = path.CGPath;
-    [self stroke];
+/// 内部表盘当前需要显示的刻度值
+- (void)setInternalValue:(CGFloat)internalValue {
+    _internalValue = internalValue;
+     CGFloat value = _internalValue/_internalArcMaxValue;
+    UIBezierPath *internalPath = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius: self.arcRadius/2 + 15  - 4 startAngle: self.startAngle endAngle: (3*M_PI_2)*value + self.startAngle clockwise:YES];
+    internalFillLayer.path = internalPath.CGPath;
 }
 
-/// 根据最大值等分刻度表
+/// 内部表盘最大值
+- (void)setInternalArcMaxValue:(CGFloat)internalArcMaxValue {
+    _internalArcMaxValue = internalArcMaxValue;
+}
+
+/// 外部表盘当前需要显示的刻度值
+- (void)setExternalValue:(CGFloat)externalValue {
+    _externalValue = externalValue;
+    CGFloat value = _externalValue/_externalArcMaxValue;
+    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius:self.arcRadius startAngle: self.startAngle endAngle: (3*M_PI_2)*value + self.startAngle clockwise:YES]; // 背景和进度开始要保
+    frontFillLayer.path = path.CGPath;
+}
+
+/// 外部表盘最大值 根据值等分刻度表
 - (void)setExternalArcMaxValue:(CGFloat)externalArcMaxValue {
     _externalArcMaxValue = externalArcMaxValue;
     [self drawScaleValueWithDivide:10 scaleMaxValue:_externalArcMaxValue];
@@ -182,10 +185,6 @@
     internalFillLayer.lineJoin = kCALineJoinRound; // 线拐角
     [self.layer addSublayer:internalFillLayer];
     
-    UIBezierPath *internalPath = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius: self.arcRadius/2 + 15  - 4 startAngle: self.startAngle endAngle: self.endAngle clockwise:YES];
-    
-    internalFillLayer.path = internalPath.CGPath;
-    
     internalGradient = [CAGradientLayer layer];
     internalGradient.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.width);
     internalGradient.colors = @[(__bridge id)_beginColor.CGColor,
@@ -210,6 +209,14 @@
     backGroundLayer.frame = self.bounds;
     backGroundLayer.lineCap = kCALineCapRound;
     backGroundLayer.lineJoin = kCALineJoinRound;
+    /**
+     设置圆弧进度百分比
+     ArcCenter: 原点
+     radius: 半径
+     startAngle: 开始角度
+     endAngle: 结束角度
+     clockwise: 是否顺时针方向
+     */
     UIBezierPath *pathBag = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius:self.arcRadius startAngle: self.startAngle endAngle: self.endAngle clockwise:YES]; // 背景和进度开始要保
     backGroundLayer.path = pathBag.CGPath;
     
