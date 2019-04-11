@@ -107,7 +107,7 @@
 - (void)setInternalValue:(CGFloat)internalValue {
     _internalValue = internalValue;
     CGFloat value = _internalValue/_internalArcMaxValue;
-    UIBezierPath *internalPath = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius: self.arcRadius/2 + 15  - 4 startAngle: self.startAngle endAngle: (3*M_PI_2)*value + self.startAngle clockwise:YES];
+    UIBezierPath *internalPath = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius: self.arcRadius/2 + 15  - 3 startAngle: self.startAngle endAngle: (3*M_PI_2)*value + self.startAngle clockwise:YES];
     internalFillLayer.path = internalPath.CGPath;
 }
 
@@ -176,7 +176,7 @@
         //默认label的大小23 * 14
         UILabel *text = [[UILabel alloc] initWithFrame:CGRectMake(point.x - 17, point.y - 8, 35, 14)];
         text.text = tickText;
-        text.font = [UIFont systemFontOfSize:11.f];
+        text.font = [UIFont systemFontOfSize:12.f];
         text.textColor = [UIColor redColor];
         text.textAlignment = NSTextAlignmentCenter;
         [self addSubview:text];
@@ -277,7 +277,7 @@
     [self internalArcLineView];
     
     self.highestAmountL = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.arcRadius, 30)];
-    self.highestAmountL.center = CGPointMake(self.curPoint.x, self.curPoint.y-20);
+    self.highestAmountL.center = CGPointMake(self.curPoint.x, self.curPoint.y-15);
     self.highestAmountL.textAlignment = NSTextAlignmentCenter;
     self.highestAmountL.font = [UIFont systemFontOfSize:14];
     self.highestAmountL.text = [NSString stringWithFormat:@"最高:100万"];
@@ -286,7 +286,7 @@
     [self addSubview:self.highestAmountL];
     
     self.myAmountL = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.arcRadius, 30)];
-    self.myAmountL.center = CGPointMake(self.highestAmountL.center.x, self.curPoint.y+20);
+    self.myAmountL.center = CGPointMake(self.highestAmountL.center.x, self.curPoint.y+15);
     self.myAmountL.text = @"我的: 22.11万";
     self.myAmountL.font = [UIFont systemFontOfSize:14];
     self.myAmountL.textColor = [UIColor redColor];

@@ -40,6 +40,10 @@
     arcView.externalValue = 320;
     arcView.internalArcMaxValue = 450;
     arcView.internalValue = 300;
+    arcView.highestValueString = @"哈哈哈：100万了";
+    arcView.myValueString = @"嘿嘿：1000万了";
+    arcView.highestLColor = UIColor.blueColor;
+    arcView.myLColor = UIColor.cyanColor;
     
     [arcView stroke];
 }
