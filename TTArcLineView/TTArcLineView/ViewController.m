@@ -28,17 +28,17 @@
 }
 
 - (void)setupUI {
-    TTArcLineView *arcView = [[TTArcLineView alloc] initWithFrame:CGRectMake(0, 69, [UIScreen mainScreen].bounds.size.width, 300) beginColor:homeRingBegincolor endColor:homeRingEndcolor];
+    
+    TTArcLineView *arcView = [[TTArcLineView alloc] initWithFrame:CGRectMake(0, 69, [UIScreen mainScreen].bounds.size.width, 300) strokeWidth:12 progressWidth:8 beginColor:homeRingBegincolor endColor:homeRingEndcolor];
     
     arcView.externalArcMaxValue = 100000;
     arcView.externalValue = 3000;
     arcView.backgroundColor = UIColor.whiteColor;
     [self.view addSubview:arcView];
-    [arcView setProgressStrokeWidth:8 backstrokWidth:12];
     arcView.progressTrackColor = [UIColor grayColor];
     arcView.internalArcColor = [[UIColor alloc] initWithRed:245/255 green:245/255 blue:245/255 alpha:0.15];
     arcView.progressValue = 0.9;
-    [arcView stroke];/// 开始圆环动画
+//    [arcView stroke];/// 开始圆环动画
    
 }
 

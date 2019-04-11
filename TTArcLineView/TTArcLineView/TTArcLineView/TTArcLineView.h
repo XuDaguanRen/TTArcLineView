@@ -35,39 +35,26 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) CGFloat internalValue;
 /**  进度值0-1.0之间 */
 @property (nonatomic,assign) CGFloat progressValue;
-/**  边宽 */
-@property(nonatomic, assign) CGFloat progressStrokeWidth;
+
 /**  进度条颜色 */
 @property(nonatomic, strong) UIColor *internalArcColor;
 /**  进度条轨道颜色 */
 @property(nonatomic, strong) UIColor *progressTrackColor;
-/**  进度条渐变开始颜色 */
-@property(nonatomic, strong) UIColor *beginColor;
-/**  进度条渐变结束颜色 */
-@property(nonatomic, strong) UIColor *endColor;
 /** 圆心中间文案  */
 @property (nonatomic, strong) UILabel *highestAmountL;
 /** 圆心中间文案 */
 @property (nonatomic, strong) UILabel *myAmountL;
-/**  默认刻度描述 */
-@property (nonatomic, strong) NSMutableArray *titleArray;
 
 /**
  初始化方法
 
- @param frame 大小
+ @param frame 表盘大小
+ @param strokeWidth 进度底部宽度
+ @param progressWidth 进度宽度
  @param beginColor 进度开始颜色
  @param endColor 进度结束颜色
  */
-- (instancetype)initWithFrame:(CGRect)frame beginColor:(UIColor*)beginColor endColor:(UIColor *)endColor;
-
-/**
- 设置背景圆环的宽度，和进度圆环的宽度
- 
- @param progressStrokeWidth 进度圆环宽度
- @param backWidth 背景圆环的宽度
- */
-- (void)setProgressStrokeWidth:(CGFloat)progressStrokeWidth backstrokWidth:(CGFloat)backWidth;
+- (instancetype)initWithFrame:(CGRect)frame strokeWidth:(CGFloat)strokeWidth progressWidth:(CGFloat)progressWidth beginColor:(UIColor*)beginColor endColor:(UIColor *)endColor;
 
 - (void)stroke;
 @end
