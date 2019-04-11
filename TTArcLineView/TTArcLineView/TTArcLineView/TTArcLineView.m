@@ -51,11 +51,11 @@
         _beginColor = beginColor;
         _endColor = endColor;
         //保存弧线宽度,开始角度，结束角度
-        self.startAngle = M_PI_4*3;
+        self.startAngle = -M_PI_4*5;
         self.endAngle = M_PI_4;
         self.arcAngle = self.endAngle-self.startAngle;
-        self.arcRadius = (CGRectGetWidth(self.bounds)- strokeWidth - progressWidth)/2.f;
-        self.scaleRadius = self.arcRadius - strokeWidth - 3;
+        self.arcRadius = (CGRectGetWidth(self.bounds) - strokeWidth - progressWidth)/2.f;
+        self.scaleRadius = self.arcRadius - strokeWidth - 10;
         self.strokeWidth = strokeWidth;
         self.progressWidth = progressWidth;
         [self setupUI];
@@ -95,13 +95,6 @@
     [self stroke];
 }
 
-//// 设置背景宽度和进度宽度
-//- (void)setProgressStrokeWidth:(CGFloat)progressStrokeWidth backstrokWidth:(CGFloat)backWidth {
-//    _progressStrokeWidth = progressStrokeWidth;
-//    frontFillLayer.lineWidth = progressStrokeWidth;
-//    backGroundLayer.lineWidth = backWidth;
-//}
-
 /// 动画效果
 - (void)stroke {
     
@@ -136,15 +129,16 @@
  *  @param divide 刻度值几等分
  */
 - (void)DrawScaleValueWithDivide:(NSInteger)divide {
-    CGFloat textAngel = (M_PI_4-3*M_PI_4)*M_PI/divide;
+    CGFloat textAngel = self.arcAngle/divide;
+    
     if (divide==0) {
         return;
     }
     for (NSUInteger i = 0; i <= divide; i++) {
-        CGPoint point = [self calculateTextPositonWithArcCenter:self.curPoint Angle:-(self.endAngle+textAngel*i)];
+        CGPoint point = [self calculateTextPositonWithArcCenter:self.curPoint Angle:-(self.endAngle-textAngel*i)];
         NSString *tickText = [NSString stringWithFormat:@"%u",(divide - i)*100/divide];
         //默认label的大小23 * 14
-        UILabel *text = [[UILabel alloc] initWithFrame:CGRectMake(point.x - 15, point.y - 7, 30, 14)];
+        UILabel *text = [[UILabel alloc] initWithFrame:CGRectMake(point.x - 15, point.y - 8, 30, 14)];
         text.text = tickText;
         text.font = [UIFont systemFontOfSize:12.f];
         text.textColor = [UIColor redColor];
@@ -154,9 +148,7 @@
 }
 
 //默认计算半径-10,计算label的坐标
-- (CGPoint)calculateTextPositonWithArcCenter:(CGPoint)center
-                                       Angle:(CGFloat)angel
-{
+- (CGPoint)calculateTextPositonWithArcCenter:(CGPoint)center Angle:(CGFloat)angel {
     CGFloat x = self.scaleRadius * cosf(angel);
     CGFloat y = self.scaleRadius * sinf(angel);
     return CGPointMake(center.x + x, center.y - y);
@@ -235,7 +227,7 @@
     self.backgroundColor = [UIColor whiteColor];
     [self setupArcLineViewUI];
     [self internalArcLineView];
-    [self DrawScaleValueWithDivide:20]; // 刻度说明
+    [self DrawScaleValueWithDivide:10]; // 刻度说明
     self.highestAmountL = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.arcRadius, 30)];
     self.highestAmountL.center = CGPointMake(self.curPoint.x, self.curPoint.y-20);
     self.highestAmountL.textAlignment = NSTextAlignmentCenter;
