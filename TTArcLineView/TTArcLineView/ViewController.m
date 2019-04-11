@@ -35,10 +35,12 @@
     [self.view addSubview:arcView];
     arcView.progressTrackColor = [UIColor grayColor];
     arcView.internalArcColor = [[UIColor alloc] initWithRed:245/255 green:245/255 blue:245/255 alpha:0.15];
+    arcView.internalProgressColor = UIColor.redColor;
     arcView.externalArcMaxValue = 450;
     arcView.externalValue = 320;
     arcView.internalArcMaxValue = 450;
     arcView.internalValue = 300;
+    
     [arcView stroke];
 }
 

@@ -14,8 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**  进度条轨道颜色 */
 @property(nonatomic, strong) UIColor *progressTrackColor;
-/**  内部进度条颜色 */
+/**  内部圆行颜色 */
 @property(nonatomic, strong) UIColor *internalArcColor;
+/**  内部圆环进度颜色 */
+@property(nonatomic, strong) UIColor *internalProgressColor;
 /**  外部表盘最大值 */
 @property (nonatomic,assign) CGFloat externalArcMaxValue;
 /**  表盘当前值 */

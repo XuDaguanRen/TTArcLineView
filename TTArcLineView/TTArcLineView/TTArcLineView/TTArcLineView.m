@@ -16,9 +16,12 @@
     CAShapeLayer *internalLayer;        //内部圆图层
     CAShapeLayer *frontFillLayer;       //用来填充的图层
     CAShapeLayer *internalFillLayer;    //内部进度y图层
-    CAGradientLayer *gradientLayer;     //渐变背景图层
-    CAGradientLayer *internalGradient;     //渐变背景图层
+
 }
+/** 外部渐变背景图层  */
+@property(nonatomic, strong) CAGradientLayer *gradientLayer;
+/**  内部渐变背景图层 */
+@property(nonatomic, strong) CAGradientLayer *internalGradient;
 /**  进度条渐变开始颜色 */
 @property(nonatomic, strong) UIColor *beginColor;
 /**  进度条渐变结束颜色 */
@@ -68,6 +71,12 @@
 
 - (void)dealloc {
     [self.layer removeAllAnimations];
+    self.gradientLayer = nil;
+    self.internalGradient = nil;
+    backGroundLayer = nil;
+    internalLayer = nil;
+    frontFillLayer = nil;
+    internalFillLayer = nil;
 }
 
 /// 我的值文案颜色
@@ -97,7 +106,7 @@
 /// 内部表盘当前需要显示的刻度值
 - (void)setInternalValue:(CGFloat)internalValue {
     _internalValue = internalValue;
-     CGFloat value = _internalValue/_internalArcMaxValue;
+    CGFloat value = _internalValue/_internalArcMaxValue;
     UIBezierPath *internalPath = [UIBezierPath bezierPathWithArcCenter:self.curPoint radius: self.arcRadius/2 + 15  - 4 startAngle: self.startAngle endAngle: (3*M_PI_2)*value + self.startAngle clockwise:YES];
     internalFillLayer.path = internalPath.CGPath;
 }
@@ -119,6 +128,12 @@
 - (void)setExternalArcMaxValue:(CGFloat)externalArcMaxValue {
     _externalArcMaxValue = externalArcMaxValue;
     [self drawScaleValueWithDivide:10 scaleMaxValue:_externalArcMaxValue];
+}
+
+/// 内部进度线条
+- (void)setInternalProgressColor:(UIColor *)internalProgressColor {
+    _internalProgressColor = internalProgressColor;
+    [self internalDrawGradientLayer];
 }
 
 /// 内部进度条颜色
@@ -148,19 +163,6 @@
     [internalFillLayer addAnimation:animation forKey:@"circleAnimation"];
 }
 
-#pragma mark -  绘制渐变图层
-- (void)drawGradientLayer {
-    gradientLayer = [CAGradientLayer layer];
-    gradientLayer.frame = self.bounds;
-    gradientLayer.colors = @[(__bridge id)_beginColor.CGColor,
-                             (__bridge id)_endColor.CGColor];
-    //    gradientLayer.locations  = @[@(0.0), @(0.2), @(0.8)];
-    gradientLayer.startPoint = CGPointMake(0, 0.5);
-    gradientLayer.endPoint = CGPointMake(1, 0.5);
-    [self.layer insertSublayer:gradientLayer atIndex:0];
-}
-
-
 #pragma mark - 圆弧等分
 - (void)drawScaleValueWithDivide:(NSInteger)divide scaleMaxValue:(CGFloat)scaleMaxValue {
     CGFloat textAngel = self.arcAngle/divide;
@@ -188,12 +190,24 @@
     return CGPointMake(center.x + x, center.y - y);
 }
 
+#pragma mark -
+- (void)internalDrawGradientLayer {
+    
+    self.internalGradient.colors = @[(__bridge id)_internalProgressColor.CGColor,
+                                     (__bridge id)_internalProgressColor.CGColor];
+    //    self.internalGradient.locations  = @[@(0.0), @(0.2), @(0.8)];
+    self.internalGradient.startPoint = CGPointMake(0, 0.5);
+    self.internalGradient.endPoint = CGPointMake(1, 0.5);
+    [self.layer insertSublayer:self.internalGradient atIndex:0];
+    self.internalGradient.mask = internalFillLayer;
+}
+
 #pragma mark - 圆环内部View
 - (void)internalArcLineView {
     
     //创建背景图层
     internalLayer = [CAShapeLayer layer];
-    internalLayer.fillColor = UIColor.redColor.CGColor;
+    internalLayer.fillColor = UIColor.whiteColor.CGColor;
     internalLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.width);
     internalLayer.lineCap = kCALineCapRound;
     internalLayer.lineJoin = kCALineJoinRound;
@@ -205,23 +219,12 @@
     //创建填充图层
     internalFillLayer = [CAShapeLayer layer];
     internalFillLayer.fillColor = [UIColor clearColor].CGColor;
-    internalFillLayer.strokeColor = [UIColor redColor].CGColor;
+    internalFillLayer.strokeColor = [UIColor whiteColor].CGColor;
     internalFillLayer.lineWidth = 3;
     internalFillLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.width);
     internalFillLayer.lineCap = kCALineCapRound; //线终点
     internalFillLayer.lineJoin = kCALineJoinRound; // 线拐角
     [self.layer addSublayer:internalFillLayer];
-    
-    internalGradient = [CAGradientLayer layer];
-    internalGradient.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.width);
-    internalGradient.colors = @[(__bridge id)_beginColor.CGColor,
-                                (__bridge id)_endColor.CGColor];
-    //    gradientLayer.locations  = @[@(0.0), @(0.2), @(0.8)];
-    internalGradient.startPoint = CGPointMake(0, 0.5);
-    internalGradient.endPoint = CGPointMake(1, 0.5);
-    [self.layer insertSublayer:internalGradient atIndex:0];
-    internalGradient.mask = internalFillLayer;
-    
 }
 
 #pragma mark -  外部圆形视图
@@ -255,9 +258,15 @@
     frontFillLayer.frame = self.bounds;
     frontFillLayer.lineCap = kCALineCapRound; //线终点
     frontFillLayer.lineJoin = kCALineJoinRound; // 线拐角
-    [self drawGradientLayer]; // 渐变
+    
+    self.gradientLayer.colors = @[(__bridge id)_beginColor.CGColor,
+                             (__bridge id)_endColor.CGColor];
+    //    gradientLayer.locations  = @[@(0.0), @(0.2), @(0.8)];
+    self.gradientLayer.startPoint = CGPointMake(0, 0.5);
+    self.gradientLayer.endPoint = CGPointMake(1, 0.5);
+    [self.layer insertSublayer:self.gradientLayer atIndex:0];
+    self.gradientLayer.mask = frontFillLayer;
     [self.layer addSublayer:backGroundLayer];
-    gradientLayer.mask = frontFillLayer;
     [self.layer insertSublayer:backGroundLayer atIndex:0];
 }
 
@@ -285,4 +294,22 @@
     //        self.myAmountL.backgroundColor = UIColor.blueColor;
     [self addSubview:self.myAmountL];
 }
+
+
+- (CAGradientLayer *)internalGradient {
+    if (!_internalGradient) {
+        _internalGradient = [CAGradientLayer layer];
+        _internalGradient.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.width);
+    }
+    return _internalGradient;
+}
+
+- (CAGradientLayer *)gradientLayer {
+    if (!_gradientLayer) {
+        _gradientLayer = [CAGradientLayer layer];
+        _gradientLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.width);
+    }
+    return _gradientLayer;
+}
+
 @end
